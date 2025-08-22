@@ -120,7 +120,7 @@ jobs:
       uses: datajourneyhq/list-github-models@vx.y.z
       with:
         artifact-name: 'models-${{ env.DATE }}'
-
+```
 ## Author
 
 **DataJourney HQ**
