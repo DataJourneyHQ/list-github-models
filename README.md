@@ -3,7 +3,7 @@ GitHub action to list GitHub Models
 
 # List GitHub Models Action
 
-[![GitHub release](https://img.shields.io/github/release/sayantikabanik/list-github-models-action.svg)](https://github.com/sayantikabanik/list-github-models-action/releases)
+[![GitHub release](https://img.shields.io/github/release/datajourneyhq/list-github-models.svg)](https://github.com/datajourneyhq/list-github-models/releases)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-list--github--models-blue?logo=github)](https://github.com/marketplace/actions/list-github-models)
 
 A GitHub Action that fetches the GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis.
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: sayantikabanik/list-github-models-action@v1
+      - uses: datajourneyhq/list-github-models@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -39,7 +39,7 @@ jobs:
 ### Advanced Usage
 
 ```yaml
-- uses: sayantikabanik/list-github-models-action@v1
+- uses: datajourneyhq/list-github-models@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     artifact-name: 'my-custom-models-catalog'
@@ -87,13 +87,12 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Fetch GitHub Models
-        uses: sayantikabanik/list-github-models-action@v1
+        uses: datajourneyhq/list-github-models@v1
         with:
           artifact-name: 'models-$(date +%Y-%m-%d)'
 ```
 
-
 ## Author
 
-**Sayantika Banik**
-- GitHub: [@sayantikabanik](https://github.com/sayantikabanik)
+**DataJourney HQ**
+- GitHub: [@datajourneyhq](https://github.com/datajourneyhq)
