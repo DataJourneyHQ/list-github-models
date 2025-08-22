@@ -25,6 +25,8 @@ GitHub’s AI models evolve constantly: while a great resource, but needs regula
 ### Basic Usage
 
 ```yaml
+# vx.y.z = latest version tag
+# example v1.0.0
 name: Track GitHub Models
 on:
   schedule:
@@ -35,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: datajourneyhq/list-github-models@v1.0.0
+      - uses: datajourneyhq/list-github-models@vx.y.z
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -43,7 +45,9 @@ jobs:
 ### Advanced Usage
 
 ```yaml
-- uses: datajourneyhq/list-github-models@v1.0.0
+# vx.y.z = latest version tag
+# example v1.0.0
+- uses: datajourneyhq/list-github-models@vx.y.z
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     artifact-name: 'my-custom-models-catalog'
@@ -90,6 +94,8 @@ Human-readable markdown report with model listings:
 ## Example Workflow
 
 ```yaml
+# vx.y.z = latest version tag
+# example v1.0.0
 name: Daily GitHub Models Tracking
 
 on:
@@ -111,7 +117,7 @@ jobs:
       run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
     - name: Fetch GitHub Models
-      uses: datajourneyhq/list-github-models@v1.0.0
+      uses: datajourneyhq/list-github-models@vx.y.z
       with:
         artifact-name: 'models-${{ env.DATE }}'
 
