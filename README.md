@@ -1,9 +1,16 @@
-# List GitHub Models Action
+## List GitHub Models Action
 
 [![GitHub release](https://img.shields.io/github/release/datajourneyhq/list-github-models.svg)](https://github.com/datajourneyhq/list-github-models/releases)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-list--github--models-blue?logo=github)](https://github.com/marketplace/actions/list-github-models)
 
-A GitHub Action that fetches the GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis.
+- Fetch GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis. \
+
+## Inspiration  
+
+One day, our workflows suddenly started failing.  
+GitHub’s AI models evolve constantly: while a great resource, but needs regular tracking.  
+
+👉 [DataJourney’s workflow](https://github.com/DataJourneyHQ/DataJourney/blob/main/.github/workflows/list-github-models.yml)
 
 ## Features
 
