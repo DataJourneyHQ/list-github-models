@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/release/datajourneyhq/list-github-models.svg)](https://github.com/datajourneyhq/list-github-models/releases)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-list--github--models-blue?logo=github)](https://github.com/marketplace/actions/list-github-models)
 
-- Fetch GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis. \
+Fetch GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis.
 
 ## Inspiration  
 
