@@ -1,0 +1,65 @@
+name: 'List GitHub Models'
+description: 'Fetch GitHub AI models catalog and upload as artifact for daily tracking and analysis'
+author: 'Sayantika Banik'
+branding:
+  icon: 'database'
+  color: 'purple'
+
+inputs:
+  github-token:
+    description: 'GitHub token for API access'
+    required: false
+    default: ${{ github.token }}
+  artifact-name:
+    description: 'Name for the uploaded artifact'
+    required: false
+    default: 'github-models-catalog'
+
+outputs:
+  artifact-name:
+    description: 'Name of the uploaded artifact'
+    value: ${{ inputs.artifact-name }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: List all available GitHub models via REST API
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        echo "Fetching GitHub models catalog..."
+        curl -L \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $GH_TOKEN" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://models.github.ai/catalog/models \
+          -o github-models.json
+        
+        echo "Models fetched successfully!"
+        echo "Total models: $(jq length github-models.json)"
+
+    - name: Extract model names and create summary
+      shell: bash
+      run: |
+        echo "Creating model summary..."
+        jq '[.[] | {id, name, summary}]' "github-models.json" > github-models-mini.json
+        
+        # Create a simple markdown report
+        echo "# GitHub Models Catalog - $(date)" > models-report.md
+        echo "" >> models-report.md
+        echo "Total models: $(jq length github-models.json)" >> models-report.md
+        echo "" >> models-report.md
+        echo "## Available Models" >> models-report.md
+        jq -r '.[] | "- **\(.name)** (\(.id)): \(.summary // "No summary available")"' github-models.json >> models-report.md
+
+    - name: Upload models catalog as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: |
+          github-models.json
+          github-models-mini.json
+          models-report.md
+        retention-days: 15
+        
