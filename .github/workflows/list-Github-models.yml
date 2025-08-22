@@ -1,0 +1,22 @@
+name: Daily GitHub Models Tracking
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  track-models:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Fetch GitHub Models
+        uses: datajourneyhq/list-github-models@v1
+        with:
+          artifact-name: 'models-$(date +%Y-%m-%d)'
+          
