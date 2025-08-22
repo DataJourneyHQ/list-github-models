@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: datajourneyhq/list-github-models@v1
+      - uses: datajourneyhq/list-github-models@v1.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -43,7 +43,7 @@ jobs:
 ### Advanced Usage
 
 ```yaml
-- uses: datajourneyhq/list-github-models@v1
+- uses: datajourneyhq/list-github-models@v1.0.0
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     artifact-name: 'my-custom-models-catalog'
@@ -91,9 +91,15 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Fetch GitHub Models
-        uses: datajourneyhq/list-github-models@v1
+        uses: datajourneyhq/list-github-models@v1.0.0
         with:
-          artifact-name: 'models-$(date +%Y-%m-%d)'
+          - name: Set Date
+            run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+    
+          - name: Fetch GitHub Models
+            uses: datajourneyhq/list-github-models@v1.0.0
+            with:
+              artifact-name: 'models-${{ env.DATE }}'
 ```
 
 ## Author
