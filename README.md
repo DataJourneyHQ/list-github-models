@@ -93,13 +93,7 @@ jobs:
       - name: Fetch GitHub Models
         uses: datajourneyhq/list-github-models@v1.0.0
         with:
-          - name: Set Date
-            run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
-    
-          - name: Fetch GitHub Models
-            uses: datajourneyhq/list-github-models@v1.0.0
-            with:
-              artifact-name: 'models-${{ env.DATE }}'
+            artifact-name: 'models-${{ env.DATE }}'
 ```
 
 ## Author
