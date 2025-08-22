@@ -7,8 +7,8 @@
 
 ## Inspiration  
 
-One day, our workflows suddenly started failing.  
-GitHub’s AI models evolve constantly: while a great resource, but needs regular tracking.  
+At DJHQ, we rely heavily on GitHub’s AI models.  
+One fine day, without warning, a few of our trusted models vanished from the listings.  
 
 👉 [DataJourney’s workflow](https://github.com/DataJourneyHQ/DataJourney/blob/main/.github/workflows/list-github-models.yml)
 
