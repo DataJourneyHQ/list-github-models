@@ -50,8 +50,10 @@ runs:
         echo "" >> models-report.md
         echo "Total models: $(jq length github-models.json)" >> models-report.md
         echo "" >> models-report.md
-        echo "## Available Models" >> models-report.md
-        jq -r '.[] | "- **\(.name)** (\(.id)): \(.summary // "No summary available")"' github-models.json >> models-report.md
+                echo "Powered by DataJourneyHQ 🚀" >> models-report.md
+                echo "https://github.com/DataJourneyHQ" >> models-report.md
+          echo "" >> models-report.md
+          jq -r '.[] | "- **\(.name)** (\(.id)): \(.summary // "No summary available")"' github-models.json >> models-report.md
 
     - name: Upload models catalog as artifact
       uses: actions/upload-artifact@v4
@@ -62,4 +64,3 @@ runs:
           github-models-mini.json
           models-report.md
         retention-days: 15
-        
