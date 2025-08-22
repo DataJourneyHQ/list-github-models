@@ -1,14 +1,14 @@
-## List GitHub AI Models
+## List GitHub Models Action
 
 [![GitHub release](https://img.shields.io/github/release/datajourneyhq/list-github-models.svg)](https://github.com/datajourneyhq/list-github-models/releases)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-list--github--models-blue?logo=github)](https://github.com/marketplace/actions/list-github-models)
 
-Fetch GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis.
+- Fetch GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis. \
 
 ## Inspiration  
 
-At DJHQ, we rely heavily on GitHub’s AI models.  
-One fine day, without warning, a few of our trusted models vanished from the listings.  
+One day, our workflows suddenly started failing.  
+GitHub’s AI models evolve constantly: while a great resource, but needs regular tracking.  
 
 👉 [DataJourney’s workflow](https://github.com/DataJourneyHQ/DataJourney/blob/main/.github/workflows/list-github-models.yml)
 
@@ -70,6 +70,23 @@ The action creates an artifact containing:
 - **`github-models-mini.json`** - Simplified version with id, name, and summary
 - **`models-report.md`** - Human-readable markdown report
 
+## Leverage various output formats
+
+The action generates three files that are uploaded as artifacts:
+
+### 1. `github-models.json`
+Complete models catalog from GitHub API containing full model details including specifications, capabilities, and metadata.
+
+### 2. `github-models-mini.json` 
+Simplified JSON with essential model information:
+
+![github-models-mini.json example](./assets/json_output.png)
+
+### 3. `models-report.md`
+Human-readable markdown report with model listings:
+
+![models-report.md example](./assets/markdown_output.png)
+
 ## Example Workflow
 
 ```yaml
@@ -90,14 +107,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Set date
-        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-    
-      - name: Fetch GitHub Models
-        uses: datajourneyhq/list-github-models@v1.0.0
-        with:
-          artifact-name: 'models-${{ env.DATE }}'
-```
+    - name: Set date
+      run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+    - name: Fetch GitHub Models
+      uses: datajourneyhq/list-github-models@v1.0.0
+      with:
+        artifact-name: 'models-${{ env.DATE }}'
 
 ## Author
 
