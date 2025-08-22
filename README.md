@@ -1,6 +1,3 @@
-# list-github-models
-GitHub action to list GitHub Models 
-
 # List GitHub Models Action
 
 [![GitHub release](https://img.shields.io/github/release/datajourneyhq/list-github-models.svg)](https://github.com/datajourneyhq/list-github-models/releases)
