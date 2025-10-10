@@ -25,8 +25,6 @@ One fine day, without warning, a few of our trusted models vanished from the lis
 ### Basic Usage
 
 ```yaml
-# vx.y.z = latest version tag
-# example v1.0.0
 name: Track GitHub Models
 on:
   schedule:
@@ -37,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: datajourneyhq/list-github-models@vx.y.z
+      - uses: datajourneyhq/list-github-models@RELEASE
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -45,9 +43,7 @@ jobs:
 ### Advanced Usage
 
 ```yaml
-# vx.y.z = latest version tag
-# example v1.0.0
-- uses: datajourneyhq/list-github-models@vx.y.z
+- uses: datajourneyhq/list-github-models@RELEASE
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     artifact-name: 'my-custom-models-catalog'
@@ -94,8 +90,6 @@ Human-readable markdown report with model listings:
 ## Example Workflow
 
 ```yaml
-# vx.y.z = latest version tag
-# example v1.0.0
 name: Daily GitHub Models Tracking
 
 on:
@@ -117,7 +111,7 @@ jobs:
       run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
     - name: Fetch GitHub Models
-      uses: datajourneyhq/list-github-models@vx.y.z
+      uses: datajourneyhq/list-github-models@RELEASE
       with:
         artifact-name: 'models-${{ env.DATE }}'
 ```
