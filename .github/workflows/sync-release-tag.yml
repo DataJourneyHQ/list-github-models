@@ -1,0 +1,43 @@
+name: Sync RELEASE Tag
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0.0, v1.1.0, etc.
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  sync-release-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history and tags
+
+      - name: Get latest version tag
+        id: latest-tag
+        run: |
+          # Get the latest version tag (sorted by version)
+          LATEST_TAG=$(git tag -l "v*" | sort -V | tail -n1)
+          echo "Latest tag: $LATEST_TAG"
+          echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+
+      - name: Update RELEASE tag
+        run: |
+          # Delete existing RELEASE tag if it exists
+          git tag -d RELEASE 2>/dev/null || true
+          git push origin :refs/tags/RELEASE 2>/dev/null || true
+          
+          # Create new RELEASE tag pointing to latest version
+          git tag RELEASE ${{ steps.latest-tag.outputs.tag }}
+          git push origin RELEASE
+
+      - name: Verify RELEASE tag
+        run: |
+          echo "RELEASE tag now points to: $(git rev-parse RELEASE)"
+          echo "Latest version tag points to: $(git rev-parse ${{ steps.latest-tag.outputs.tag }})"

@@ -19,6 +19,6 @@ jobs:
         run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
     
       - name: Fetch GitHub Models
-        uses: datajourneyhq/list-github-models@v1.0.0
+        uses: datajourneyhq/list-github-models@RELEASE
         with:
           artifact-name: 'models-${{ env.DATE }}'
