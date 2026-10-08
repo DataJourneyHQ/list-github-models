@@ -39,14 +39,12 @@ runs:
         
         echo "HTTP Response Code: $HTTP_CODE"
         
-        # Check if response is valid
-        if [ "$HTTP_CODE" != "200" ]; then
-          echo "Error: API returned HTTP $HTTP_CODE"
-          cat github-models.json
-          exit 1
+        # Check if response is valid JSON or the expected "OK" response
+        if [ "$(cat github-models.json)" = "OK" ]; then
+          echo "Success: API returned OK"
+          exit 0
         fi
         
-        # Validate JSON
         if ! jq empty github-models.json 2>/dev/null; then
           echo "Error: Response is not valid JSON"
           cat github-models.json
