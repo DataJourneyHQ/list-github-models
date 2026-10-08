@@ -28,13 +28,30 @@ runs:
       env:
         GH_TOKEN: ${{ inputs.github-token }}
       run: |
-        echo "Fetching GitHub models catalog..."
-        curl -L \
+        echo "Fetching GitHub models catalogue..."
+        HTTP_CODE=$(curl -L \
           -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer $GH_TOKEN" \
+          -H "Authorisation: Bearer $GH_TOKEN" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://models.github.ai/catalog/models \
-          -o github-models.json
+          -w "%{http_code}" \
+          -o github-models.json \
+          https://models.github.ai/catalog/models)
+        
+        echo "HTTP Response Code: $HTTP_CODE"
+        
+        # Check if response is valid
+        if [ "$HTTP_CODE" != "200" ]; then
+          echo "Error: API returned HTTP $HTTP_CODE"
+          cat github-models.json
+          exit 1
+        fi
+        
+        # Validate JSON
+        if ! jq empty github-models.json 2>/dev/null; then
+          echo "Error: Response is not valid JSON"
+          cat github-models.json
+          exit 1
+        fi
         
         echo "Models fetched successfully!"
         echo "Total models: $(jq length github-models.json)"
