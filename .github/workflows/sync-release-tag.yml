@@ -31,7 +31,7 @@ jobs:
         run: |
           # Delete existing RELEASE tag if it exists
           git tag -d RELEASE 2>/dev/null || true
-          git push origin :refs/tags/RELEASE 2>/dev/null || true
+          git push origin --delete refs/tags/RELEASE
           
           # Create new RELEASE tag pointing to latest version
           git tag RELEASE ${{ steps.latest-tag.outputs.tag }}
