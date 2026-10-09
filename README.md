@@ -1,37 +1,128 @@
-# List GitHub AI Models (retired)
+## List GitHub AI Models
 
-> **This action is retired and is no longer maintained.** GitHub retired the GitHub Models service on **July 30, 2026**, including its model catalog and REST API.
+[![GitHub release](https://img.shields.io/github/release/datajourneyhq/list-github-models.svg)](https://github.com/datajourneyhq/list-github-models/releases)
+[![GitHub marketplace](https://img.shields.io/badge/marketplace-list--github--models-blue?logo=github)](https://github.com/marketplace/actions/list-github-models)
 
-The source and existing releases remain available for historical reference.
+> [!IMPORTANT]
+> **This action is retired**
+>
+> GitHub retired GitHub Models and its catalog API on **July 30, 2026**. This action is no longer maintained.
+>
+> The documentation, examples, and screenshots below are preserved for historical reference. [Read GitHub’s retirement announcement →](https://github.blog/changelog/2026-07-30-github-models-is-now-retired/)
 
-## Why the action stopped working
+Fetch GitHub AI models catalog and uploads it as an artifact for daily tracking and analysis.
 
-GitHub Models is no longer available to any customer. Its playground, model catalog, inference API, and bring your own key (BYOK) features have all been retired. See [GitHub's retirement announcement](https://github.blog/changelog/2026-07-30-github-models-is-now-retired/) and the [current GitHub Models documentation](https://docs.github.com/en/github-models).
+## Inspiration  
 
-The action fetched its catalog from `https://models.github.ai/catalog/models`. That endpoint now returns **HTTP 200** with a plain-text `OK` response instead of a JSON catalog, causing the reported JSON validation failure. A successful HTTP status alone does not mean the catalog is available.
+At DJHQ, we rely heavily on GitHub’s AI models.  
+One fine day, without warning, a few of our trusted models vanished from the listings.
 
-There is no supported replacement endpoint for the retired GitHub Models catalog.
+👉 [DataJourney’s workflow](https://github.com/DataJourneyHQ/DataJourney/blob/main/.github/workflows/list-github-models.yml)
 
-## If you use this action
+## Features
 
-- Remove `datajourneyhq/list-github-models` from your workflows.
-- Disable scheduled workflows dedicated to fetching this catalog.
-- Download any historical artifacts you want to keep before their retention period expires.
+- 📊 Fetches complete GitHub AI models catalog
+- 📝 Creates simplified summary with key model information
+- 📋 Generates markdown report for easy viewing
+- 💾 Uploads all data as downloadable artifacts
+- ⏰ Perfect for scheduled workflows to track model changes
 
-For projects that need AI model access, GitHub points to [Microsoft Foundry](https://ai.azure.com/). For AI-powered workflows on GitHub, see [GitHub Copilot](https://docs.github.com/en/copilot). Neither restores this action's retired catalog API.
+## Usage
 
-## About the project
+### Basic Usage
 
-We built this action at DataJourney HQ after models we relied on disappeared from GitHub's listings. It captured daily catalog snapshots to help track changes and produced three artifact files:
+```yaml
+name: Track GitHub Models
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Daily at 3 AM UTC
 
-| File | Contents |
-|------|----------|
-| `github-models.json` | Full model catalog returned by the API |
-| `github-models-mini.json` | Model IDs, names, and summaries |
-| `models-report.md` | Human-readable catalog report |
+jobs:
+  track-models:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: datajourneyhq/list-github-models@RELEASE
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+```
 
-Historical snapshots describe what was available when they were captured; they do not represent current model availability.
+### Advanced Usage
 
+```yaml
+- uses: datajourneyhq/list-github-models@RELEASE
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    artifact-name: 'my-custom-models-catalog'
+```
+
+## Inputs
+
+| Input | Description | Required | Default |
+|-------|-------------|----------|---------|
+| `github-token` | GitHub token for API access | No | `${{ github.token }}` |
+| `artifact-name` | Name for the uploaded artifact | No | `github-models-catalog` |
+
+## Outputs
+
+| Output | Description |
+|--------|-------------|
+| `artifact-name` | Name of the uploaded artifact |
+
+## Artifacts
+
+The action creates an artifact containing:
+
+- **`github-models.json`** - Complete models catalog from GitHub API
+- **`github-models-mini.json`** - Simplified version with id, name, and summary
+- **`models-report.md`** - Human-readable markdown report
+
+## Leverage various output formats
+
+The action generates three files that are uploaded as artifacts:
+
+### 1. `github-models.json`
+Complete models catalog from GitHub API containing full model details including specifications, capabilities, and metadata.
+
+### 2. `github-models-mini.json` 
+Simplified JSON with essential model information:
+
+![github-models-mini.json example](./assets/json_output.png)
+
+### 3. `models-report.md`
+Human-readable markdown report with model listings:
+
+![models-report.md example](./assets/markdown_output.png)
+
+## Example Workflow
+
+```yaml
+name: Daily GitHub Models Tracking
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  track-models:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+    - name: Set date
+      run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+    - name: Fetch GitHub Models
+      uses: datajourneyhq/list-github-models@RELEASE
+      with:
+        artifact-name: 'models-${{ env.DATE }}'
+```
 ## Author
 
-[DataJourney HQ](https://github.com/DataJourneyHQ)
+**DataJourney HQ**
+- GitHub: [@datajourneyhq](https://github.com/datajourneyhq)
